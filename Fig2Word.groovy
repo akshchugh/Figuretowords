@@ -56,5 +56,5 @@ def fig2word(int num) {
         answer.join(" ")
     }
 }
-def x = 54
-println fig2word(x)
+def number = System.console().readLine 'Enter a number'
+println fig2word(number.toInteger())
