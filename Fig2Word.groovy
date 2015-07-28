@@ -1,4 +1,4 @@
-def fig2word(int num) {
+def fig2word(Integer num) {
     units = ["","One","Two","Three","Four","Five","Six","Seven","Eight","Nine"]
     teens = ["","Eleven","Twelve","Thirteen","Fourteen","Fifteen","Sixteen","Seventeen",
                  "Eighteen","Nineteen"]
@@ -43,11 +43,19 @@ def fig2word(int num) {
         u = numStr[length - 1].toInteger()
         if (h > 0)
             answer << units[h] << "Hundred"
-        if(((u >= 1 || t >= 1) && h > 0)||(num >= 1000))
+        if((u >= 1 || t >= 1) && (h > 0||num >= 1000))
             answer << "and"
         answer << tensAndUnits()
         answer.flatten().join(" ")
     }
 }
+
+assert (fig2word(600)) == "Six Hundred"
+assert (fig2word(2001)) == "Two Thousand and One"
+assert (fig2word(10)) == "Ten"
+assert (fig2word(29)) == "Twenty Nine"
+assert (fig2word(2500)) == "Two Thousand Five Hundred"
+assert (fig2word(100101)) == "One Lakh One Hundred and One"
+
 def number = System.console().readLine 'Enter a number'
 println fig2word(number.toInteger())
