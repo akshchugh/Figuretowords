@@ -10,28 +10,32 @@ def fig2word(int num) {
     else {
         def answer = []
         numStr = num.toString()
-        origSize = num.toString().size()
         numStr = "0000000000" + numStr;
         length = numStr.size()
+        def tensAndUnits = {
+        	ans = []
+        	if (t > 1) {
+                ans << tens[t]
+                if(u >= 1) ans << units[u]
+            }
+            else if(t == 1){
+                if(u >= 1) ans << teens[u]
+                else ans << tens[t]
+            }
+            else {
+                if(u >= 1) ans << units[u]
+            }
+            ans
+        }
        
         c = 1
-        for(i = 4; i <= origSize; i+=2) {
+        for(i = 4; i <= num.toString().size(); i+=2) {
             curAns = [];
             t = numStr[length - i - 1].toInteger();
             u = numStr[length - i].toInteger();
-             if (t > 1) {
-                curAns << tens[t]
-                if(u >= 1) curAns << units[u]
-            }
-            else if(t == 1){
-                if(u >= 1) curAns << teens[u]
-                else curAns << tens[t]
-            }
-            else {
-                if(u >= 1) curAns << units[u]
-            }
+            curAns << tensAndUnits(curAns)
             curAns << thousands[c];
-            answer = curAns + answer;
+            answer = curAns << tensAndUnits();
             c = c + 1
         }
         
@@ -42,17 +46,7 @@ def fig2word(int num) {
             answer << units[h] << "Hundred"
         if((u > 1 || t > 1) && h > 0)
             answer << "and"
-        if (t > 1) {
-            answer << tens[t]
-            if(u >= 1) answer << units[u]
-        }
-        else if(t == 1){
-            if(u >= 1) answer << teens[u]
-            else answer << tens[t]
-        }
-        else {
-            if(u >= 1) answer << units[u]
-        }
+        answer << tensAndUnits()
         answer.join(" ")
     }
 }
