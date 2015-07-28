@@ -9,12 +9,10 @@ def fig2word(int num) {
         "Zero"
     else {
         def answer = []
-        numStr = num.toString()
-        numStr = "0000000000" + numStr;
-        length = numStr.size()
+        numStr = ("0000000000" + num.toString()).reverse()
         def tensAndUnits = {
-        	ans = []
-        	if (t > 1) {
+            ans = []
+            if (t > 1) {
                 ans << tens[t]
                 if(u >= 1) ans << units[u]
             }
@@ -29,16 +27,17 @@ def fig2word(int num) {
         }
        
         c = 1
-        for(i = 4; i <= num.toString().size(); i+=2) {
+        for(i = 3; i < num.toString().size(); i+=2) {
             curAns = [];
-            t = numStr[length - i - 1].toInteger();
-            u = numStr[length - i].toInteger();
-            curAns << tensAndUnits(curAns)
+            t = numStr[i + 1].toInteger();
+            u = numStr[i].toInteger();
+            curAns << tensAndUnits()
             curAns << thousands[c];
-            answer = curAns << tensAndUnits();
+            answer = curAns + answer;
             c = c + 1
         }
-        
+        numStr = numStr.reverse()
+        length = numStr.size()
         h = numStr[length - 3].toInteger()
         t = numStr[length - 2].toInteger()
         u = numStr[length - 1].toInteger()
@@ -47,7 +46,7 @@ def fig2word(int num) {
         if((u > 1 || t > 1) && h > 0)
             answer << "and"
         answer << tensAndUnits()
-        answer.join(" ")
+        answer.flatten().join(" ")
     }
 }
 def number = System.console().readLine 'Enter a number'
